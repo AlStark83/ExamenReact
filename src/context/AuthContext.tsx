@@ -20,8 +20,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     
     if (username === validUsername && password === validPassword) {
       setUser({ username });
+      
+      return true
     }
+    console.log(validPassword, validUsername)
+    return false
   };
+  
 
   const logout = () => {
     setUser(null);
