@@ -10,6 +10,7 @@ a algún storage.
 siguiente.*/
 
 import { useState } from "react";
+import styles from "../styles/Upload.module.css";
 
 const Upload = () => {
   const [images, setImages] = useState<File[]>([]);
@@ -62,22 +63,13 @@ const Upload = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div  className={styles.container}>
       <h2>Subir Imágenes</h2>
 
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        style={{
-          width: "100%",
-          height: "200px",
-          border: "2px dashed #ccc",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: "20px",
-          cursor: "pointer",
-        }}
+        className={styles.dragDropArea}
       >
         Arrastra y suelta tus imágenes aquí
       </div>
@@ -85,10 +77,11 @@ const Upload = () => {
       <input type="file" accept="image/png, image/jpeg, image/jpg" multiple onChange={handleFileSelect} />
 
       {images.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
+        <div className={styles.previewContainer}>
           <h3>Vista previa</h3>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <button
+            className={styles.button}
               onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
               disabled={currentIndex === 0}
             >
@@ -98,10 +91,11 @@ const Upload = () => {
             <img
               src={URL.createObjectURL(images[currentIndex])}
               alt="Vista previa"
-              style={{ maxWidth: "300px", maxHeight: "200px", margin: "0 10px" }}
+              className={styles.imagePreview}
             />
 
             <button
+            className={styles.button}
               onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, images.length - 1))}
               disabled={currentIndex === images.length - 1}
             >
@@ -109,7 +103,7 @@ const Upload = () => {
             </button>
           </div>
 
-          <button onClick={handleUpload} style={{ marginTop: "10px", padding: "10px 20px", fontSize: "16px" }}>
+          <button onClick={handleUpload} className={styles.button}>
             Subir Imágenes
           </button>
         </div>

@@ -9,6 +9,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import styles from "../styles/Login.module.css";
 
 interface Credentials {
 	username: string;
@@ -34,12 +35,12 @@ const Login: React.FC<LoginProps> = () => {
 		e.preventDefault();
 		try {
 			const success = login(credentials.username, credentials.password);
-      
+
 			if (success) {
-        navigate("/employees");
-        return;
+				navigate("/employees");
+				return;
 			} else {
-        console.log(credentials.username, credentials.password);
+				console.log(credentials.username, credentials.password);
 				setError("Usuario o contraseña incorrectos");
 			}
 		} catch (error) {
@@ -48,10 +49,11 @@ const Login: React.FC<LoginProps> = () => {
 	};
 
 	return (
-		<div>
+		<div className={styles.container}>
 			<h2>Iniciar Sesión</h2>
 			<form onSubmit={handleSubmit}>
 				<input
+					className={styles.input}
 					type="text"
 					name="username"
 					placeholder="Usuario"
@@ -61,6 +63,7 @@ const Login: React.FC<LoginProps> = () => {
 					onPaste={(e) => e.preventDefault()}
 				/>
 				<input
+				className={styles.input}
 					type="password"
 					name="password"
 					placeholder="Contraseña"
@@ -69,8 +72,8 @@ const Login: React.FC<LoginProps> = () => {
 					autoComplete="off"
 					onPaste={(e) => e.preventDefault()}
 				/>
-				{error && <p style={{ color: "red" }}>{error}</p>}
-				<button type="submit">Iniciar Sesión</button>
+				{error && <p className={styles.errorMessage}>{error}</p>}
+				<button className={styles.button} type="submit">Iniciar Sesión</button>
 			</form>
 		</div>
 	);

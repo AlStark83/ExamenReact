@@ -21,9 +21,9 @@ employees/:tu_nombre por el método POST
 - Actualizar los datos de tabla una vez enviado el formulario al API y limpiar
 formulario.
 - TODOS LOS CAMPOS SON OBLIGATORIOS. */
-
 import { useState, useEffect } from "react";
 import { getEmployees } from "../services/employeeservices";
+import styles from "../styles/Employees.module.css";
 
 function Employees() {
 	interface Employee {
@@ -89,13 +89,13 @@ function Employees() {
 				throw new Error(`Error ${response.status}: ${response.statusText}`);
 			}
 
-			const updatedEmployees = await 	getEmployees().then((data) => {
-        setEmployees(data.employees);
-      });
-      
-			console.log( updatedEmployees);
-      
-      setCurrentPage(Math.ceil(employees.length / employeesPerPage));
+			const updatedEmployees = await getEmployees().then((data) => {
+				setEmployees(data.employees);
+			});
+
+			console.log(updatedEmployees);
+
+			setCurrentPage(Math.ceil(employees.length / employeesPerPage));
 			setNewEmployee({ name: "", last_name: "", birthday: "" });
 		} catch (error) {
 			console.error("Error al agregar empleado:", error);
@@ -103,15 +103,16 @@ function Employees() {
 	};
 
 	return (
-		<div>
+		<div className={styles.container}>
 			<h2>Empleados</h2>
 			<input
 				type="text"
 				placeholder="Buscar empleado"
 				value={search}
 				onChange={(e) => setSearch(e.target.value)}
+				className={styles.searchBar}
 			/>
-			<table border={1}>
+			<table className={styles.table}>
 				<thead>
 					<tr>
 						<th>Nombre</th>
@@ -129,17 +130,18 @@ function Employees() {
 					))}
 				</tbody>
 			</table>
-			<div>
+			<div className={styles.pagination}>
 				<button
+					className={styles.button}
 					onClick={() => setCurrentPage(currentPage - 1)}
 					disabled={currentPage === 1}>
 					Anterior
 				</button>
-				<span>
-					{" "}
-					Página {currentPage} de {totalPages}{" "}
+				<span className={styles.paginationSpan}>
+					Página {currentPage} de {totalPages}
 				</span>
 				<button
+					className={styles.button}
 					onClick={() => setCurrentPage(currentPage + 1)}
 					disabled={currentPage === totalPages}>
 					Siguiente
@@ -152,6 +154,7 @@ function Employees() {
 					handleAddEmployee();
 				}}>
 				<input
+					className={styles.inputField}
 					type="text"
 					name="name"
 					placeholder="Nombre (máx 30 caracteres)"
@@ -160,6 +163,7 @@ function Employees() {
 					maxLength={30}
 				/>
 				<input
+					className={styles.inputField}
 					type="text"
 					name="last_name"
 					placeholder="Apellido (máx 30 caracteres)"
@@ -168,12 +172,17 @@ function Employees() {
 					maxLength={30}
 				/>
 				<input
+					className={styles.inputField}
 					type="date"
 					name="birthday"
 					value={newEmployee.birthday}
 					onChange={handleInputChange}
 				/>
-				<button type="submit">Agregar</button>
+				<div>
+					<button className={styles.button} type="submit">
+						Agregar
+					</button>
+				</div>
 			</form>
 		</div>
 	);
